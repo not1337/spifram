@@ -1,0 +1,20 @@
+Using the Adafruit SPI FRAM breakout with a Raspberry Pi
+
+- get an Adafruit SPI FRAM breakout (MB85RS64V chip, 8KB FRAM)
+- connect: VCC to P1-17, GND to P1-25, SCLK to P1-23, MISO to P1-21,
+  MOSI to P1-19 and CS to P1-24
+- Make sure that "dtparam=spi=on" is not commented in /boot/config.txt
+  and reboot if necessary
+- You can access the FRAM now using bus=0 and device=0 with this library
+
+Note: The 10^12 cycles are for any access to each byte, so if you happily
+read the FRAM fast and often you will break the chip.
+
+For the return values of the id function as well as the status register
+functionality do consult the MB85RS64V datasheet, though usually you
+won't need that functionality.
+
+If you use a userspace direct access library to access the SPI bus you
+will break the kernel SPI functionality and thus the included library.
+After accessing the SPI bus with such a library you will thus have to
+reboot to be able to use the included library again.
